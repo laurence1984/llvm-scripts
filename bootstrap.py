@@ -45,6 +45,11 @@ def build_stage(n):
 
     subprocess.check_call(configure_args)
     subprocess.check_call(['make', '-j8', 'CLANG_IS_PRODUCTION=1', 'VERBOSE=1'])
+    if platform.system() != 'Darwin' and n != 1:
+        os.remove('Release/bin/clang')
+        subprocess.check_call(['make', '-j8', 'CLANG_IS_PRODUCTION=1',
+                               'LDFLAGS=-static', 'VERBOSE=1'])
+
     subprocess.check_call(['make', 'install', 'CLANG_IS_PRODUCTION=1'])
 
     shutil.copy('../clang/tools/clang-format/clang-format.py',
