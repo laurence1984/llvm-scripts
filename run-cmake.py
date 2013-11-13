@@ -18,8 +18,8 @@ CXX='ccache clang++'
 #CC='clang'
 #CXX='clang++'
 
-CC='/home/espindola/llvm/build/bin/clang'
-CXX='/home/espindola/llvm/build/bin/clang++'
+#CC='/home/espindola/llvm/build/bin/clang'
+#CXX='/home/espindola/llvm/build/bin/clang++'
 
 #CC='/usr/bin/gcc'
 #CXX='/usr/bin/g++'

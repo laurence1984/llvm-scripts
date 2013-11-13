@@ -21,7 +21,9 @@ def build_stage(n):
         extra_config_args = ['--disable-assertions']
 
     cxx = cc + '++'
-    cxx += ' -stdlib=libc++ -std=gnu++11'
+    cxx += ' -std=gnu++11'
+    if platform.system() == 'Darwin':
+        cxx += ' -stdlib=libc++'
     if n != 1:
         cc += ' -flto'
         cxx += ' -flto'
