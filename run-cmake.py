@@ -10,6 +10,7 @@ static=False
 shared=False
 
 import subprocess
+import platform
 import os
 
 CC='ccache clang'
@@ -47,7 +48,9 @@ CMAKE_ARGS  = "-DCLANG_BUILD_EXAMPLES=ON -DLLVM_BUILD_EXAMPLES=ON -G Ninja"
 #CMAKE_ARGS += " -DCLANG_TEST_EXTRA_ARGS=--use-processes"
 CMAKE_ARGS += " -DLLVM_BINUTILS_INCDIR=/home/espindola/binutils/binutils/include"
 CMAKE_ARGS += " -DCMAKE_PREFIX_PATH=/home/espindola/llvm/cloog-inst"
-CMAKE_ARGS += " -DCMAKE_EXE_LINKER_FLAGS=-Wl,-gc-sections"
+
+if platform.system() != 'Darwin':
+    CMAKE_ARGS += " -DCMAKE_EXE_LINKER_FLAGS=-Wl,-gc-sections"
 
 CMAKE_ARGS += " -DCMAKE_INSTALL_PREFIX=/home/espindola/llvm/test-install"
 
