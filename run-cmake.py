@@ -2,6 +2,7 @@
 
 optimize=True
 asserts=True
+lto=False
 stats=False
 asan=False
 msan=False
@@ -54,8 +55,15 @@ if platform.system() != 'Darwin':
 
 CMAKE_ARGS += " -DCMAKE_INSTALL_PREFIX=/home/espindola/llvm/test-install"
 
+linker_flags=[]
 if static:
-  CMAKE_ARGS += " -DCMAKE_EXE_LINKER_FLAGS=-static"
+  linker_flags += ['-static']
+if lto:
+  linker_flags += ['-flto']
+if linker_flags:
+  CMAKE_ARGS += ' -DCMAKE_EXE_LINKER_FLAGS="' + ' '.join(linker_flags) + '"'
+
+if static:
   CMAKE_ARGS += " -DLIBCLANG_BUILD_STATIC=ON"
 
 if shared:
@@ -71,7 +79,9 @@ else:
 
 CMAKE_ARGS += " -DCMAKE_BUILD_TYPE=None"
 
-if optimize:
+if lto:
+  opt = "-O3 -flto"
+elif optimize:
     opt = "-O3"
 else:
     opt = "-O0 -g"
@@ -81,6 +91,7 @@ else:
 if msan:
   opt = '-O1 -g -fno-omit-frame-pointer'
 
+CMAKE_ARGS += ' -DCMAKE_AR=/home/espindola/inst/binutils/bin/ar -DCMAKE_RANLIB=/usr/bin/true'
 CMAKE_ARGS += ' -DCMAKE_C_FLAGS="%s %s"' % (CFLAGS, opt)
 CMAKE_ARGS += ' -DCMAKE_CXX_FLAGS="%s %s"' % (CXXFLAGS, opt)
 
