@@ -64,7 +64,7 @@ if linker_flags:
   CMAKE_ARGS += ' -DCMAKE_EXE_LINKER_FLAGS="' + ' '.join(linker_flags) + '"'
 
 if static:
-  CMAKE_ARGS += " -DLIBCLANG_BUILD_STATIC=ON"
+  CMAKE_ARGS += " -DLIBCLANG_BUILD_STATIC=ON -DLLVM_ENABLE_PIC=OFF"
 
 if shared:
   CMAKE_ARGS += " -DBUILD_SHARED_LIBS=ON"
