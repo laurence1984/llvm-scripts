@@ -91,7 +91,10 @@ else:
 if msan:
   opt = '-O1 -g -fno-omit-frame-pointer'
 
-CMAKE_ARGS += ' -DCMAKE_AR=/home/espindola/inst/binutils/bin/ar -DCMAKE_RANLIB=/usr/bin/true'
+if platform.system() != 'Darwin':
+  CMAKE_ARGS += ' -DCMAKE_AR=/home/espindola/inst/binutils/bin/ar'
+
+CMAKE_ARGS += ' -DCMAKE_RANLIB=/usr/bin/true'
 CMAKE_ARGS += ' -DCMAKE_C_FLAGS="%s %s"' % (CFLAGS, opt)
 CMAKE_ARGS += ' -DCMAKE_CXX_FLAGS="%s %s"' % (CXXFLAGS, opt)
 
