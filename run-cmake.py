@@ -14,14 +14,16 @@ import subprocess
 import platform
 import os
 
+HOME = os.environ['HOME']
+
 CC='ccache clang'
 CXX='ccache clang++'
 
 #CC='clang'
 #CXX='clang++'
 
-#CC='/home/espindola/llvm/build/bin/clang'
-#CXX='/home/espindola/llvm/build/bin/clang++'
+#CC=HOME + '/llvm/build/bin/clang'
+#CXX=HOME + '/llvm/build/bin/clang++'
 
 #CC='/usr/bin/gcc'
 #CXX='/usr/bin/g++'
@@ -35,7 +37,7 @@ if not 'gcc' in CC:
       CFLAGS += ' -fsanitize=address'
 
   if msan:
-      CFLAGS += ' -stdlib=libc++ -fsanitize=memory -nostdinc++ -I/home/espindola/inst/libc++-msan/include/ -L/home/espindola/inst/libc++-msan/lib -lc++ -lc++abi'
+      CFLAGS += ' -stdlib=libc++ -fsanitize=memory -nostdinc++ -I%s/inst/libc++-msan/include/ -L%s/inst/libc++-msan/lib -lc++ -lc++abi' % HOME
 else:
   pass
 
@@ -47,13 +49,13 @@ CXXFLAGS=CFLAGS + ' -std=c++11'
 CMAKE_ARGS  = "-DCLANG_BUILD_EXAMPLES=ON -DLLVM_BUILD_EXAMPLES=ON -G Ninja"
 #CMAKE_ARGS += " -DLLVM_LIT_EXTRA_ARGS=--use-processes"
 #CMAKE_ARGS += " -DCLANG_TEST_EXTRA_ARGS=--use-processes"
-CMAKE_ARGS += " -DLLVM_BINUTILS_INCDIR=/home/espindola/binutils/binutils/include"
-CMAKE_ARGS += " -DCMAKE_PREFIX_PATH=/home/espindola/llvm/cloog-inst"
+CMAKE_ARGS += " -DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include" % HOME
+CMAKE_ARGS += " -DCMAKE_PREFIX_PATH=%s/llvm/cloog-inst" % HOME
 
 if platform.system() != 'Darwin':
     CMAKE_ARGS += " -DCMAKE_EXE_LINKER_FLAGS=-Wl,-gc-sections"
 
-CMAKE_ARGS += " -DCMAKE_INSTALL_PREFIX=/home/espindola/llvm/test-install"
+CMAKE_ARGS += " -DCMAKE_INSTALL_PREFIX=%s/llvm/test-install" % HOME
 
 linker_flags=[]
 if static:
@@ -92,7 +94,7 @@ if msan:
   opt = '-O1 -g -fno-omit-frame-pointer'
 
 if platform.system() != 'Darwin':
-  CMAKE_ARGS += ' -DCMAKE_AR=/home/espindola/inst/binutils/bin/ar'
+  CMAKE_ARGS += ' -DCMAKE_AR=%s/inst/binutils/bin/ar' % HOME
 
 CMAKE_ARGS += ' -DCMAKE_RANLIB=/usr/bin/true'
 CMAKE_ARGS += ' -DCMAKE_C_FLAGS="%s %s"' % (CFLAGS, opt)
