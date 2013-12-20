@@ -87,8 +87,9 @@ elif optimize:
     opt = "-O3"
 else:
     opt = "-O0 -g"
-    opt += " -fdebug-types-section -gsplit-dwarf"
-    assert not ('ccache' in CC)
+    if platform.system() != 'Darwin':
+        opt += " -fdebug-types-section -gsplit-dwarf"
+        assert not ('ccache' in CC)
 
 if msan:
   opt = '-O1 -g -fno-omit-frame-pointer'
