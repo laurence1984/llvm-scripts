@@ -86,6 +86,7 @@ if lto:
 elif optimize:
     opt = "-O3"
 else:
+    CMAKE_ARGS += " -DLLVM_NO_DEAD_STRIP=ON"
     opt = "-O0 -g"
     if platform.system() != 'Darwin':
         opt += " -fdebug-types-section -gsplit-dwarf"
