@@ -16,11 +16,8 @@ import os
 
 HOME = os.environ['HOME']
 
-CC='ccache clang'
-CXX='ccache clang++'
-
-#CC='clang'
-#CXX='clang++'
+CC='clang'
+CXX='clang++'
 
 #CC=HOME + '/llvm/build/bin/clang'
 #CXX=HOME + '/llvm/build/bin/clang++'
