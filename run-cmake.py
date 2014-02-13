@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-optimize=True
+optimize=False
 asserts=True
+debug=False
 lto=False
 stats=False
 asan=False
@@ -74,11 +75,14 @@ elif lto:
 elif optimize:
     opt = ['-O3']
 else:
-    opt = ['-O0', '-g']
+    opt = ['-O0']
     CMAKE_ARGS += ['-DLLVM_NO_DEAD_STRIP=ON']
-    if platform.system() != 'Darwin':
-        opt += ['-fdebug-types-section', '-gsplit-dwarf']
-        assert not ('ccache' in CC)
+
+if debug:
+  opt += ['-g']
+  if platform.system() != 'Darwin':
+    opt += ['-fdebug-types-section', '-gsplit-dwarf']
+    assert not ('ccache' in CC)
 
 if platform.system() != 'Darwin':
   CMAKE_ARGS += ['-DCMAKE_AR=%s/inst/binutils/bin/ar' % HOME]
