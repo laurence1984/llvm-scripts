@@ -28,7 +28,7 @@ CXX='clang++'
 
 CFLAGS=[]
 if not 'gcc' in CC:
-  CFLAGS += ['-Wdocumentation', '-fcolor-diagnostics']
+  CFLAGS += ['-fcolor-diagnostics']
 
   if asan:
       CFLAGS += ['-fsanitize=address']
