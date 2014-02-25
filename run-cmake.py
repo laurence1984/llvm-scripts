@@ -20,6 +20,10 @@ HOME = os.environ['HOME']
 CC='clang'
 CXX='clang++'
 
+if debug:
+  CC=HOME + '/inst/clang/bin/clang'
+  CXX=HOME + '/inst/clang/bin/clang++'
+
 #CC=HOME + '/llvm/build/bin/clang'
 #CXX=HOME + '/llvm/build/bin/clang++'
 
