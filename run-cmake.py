@@ -92,7 +92,7 @@ if platform.system() != 'Darwin':
   CMAKE_ARGS += ['-DCMAKE_AR=%s/inst/binutils/bin/ar' % HOME]
 
 CFLAGS += opt
-CXXFLAGS=CFLAGS + ['-std=c++11']
+CXXFLAGS=CFLAGS
 
 CMAKE_ARGS += ['-DCMAKE_RANLIB=/usr/bin/true']
 CMAKE_ARGS += ['-DCMAKE_C_FLAGS="%s"' % ' '.join(CFLAGS)]
