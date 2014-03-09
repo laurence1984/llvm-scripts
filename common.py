@@ -45,7 +45,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     CMAKE_ARGS +=  ['-DCMAKE_EXE_LINKER_FLAGS=' + ' '.join(linker_flags)]
 
   if static:
-    CMAKE_ARGS += ['-DLIBCLANG_BUILD_STATIC=ON', '-DLLVM_ENABLE_PIC=OFF']
+    CMAKE_ARGS += ['-DCLANG_ENABLE_ARCMT=OFF']
 
   if shared:
     CMAKE_ARGS += ['-DBUILD_SHARED_LIBS=ON']

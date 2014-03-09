@@ -26,7 +26,7 @@ asan=False
 build32=False
 static=False
 shared=False
-production=True
+production=False
 
 run_cmake(CC=CC, CXX=CXX, AR=AR, RANLIB=RANLIB, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
