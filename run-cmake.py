@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
 from common import run_cmake
-
-#CC=HOME + '/inst/clang/bin/clang'
-#CXX=HOME + '/inst/clang/bin/clang++'
+import os
+HOME = os.environ['HOME']
 
 #CC=HOME + '/llvm/build/bin/clang'
 #CXX=HOME + '/llvm/build/bin/clang++'
@@ -26,9 +25,14 @@ asan=False
 build32=False
 static=False
 shared=False
-production=False
+plugin=True
+
+if debug:
+    CC=HOME + '/inst/clang/bin/clang'
+    CXX=HOME + '/inst/clang/bin/clang++'
+
 
 run_cmake(CC=CC, CXX=CXX, AR=AR, RANLIB=RANLIB, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
           stats=stats, asan=asan, build32=build32, static=static, shared=shared,
-          production=production)
+          plugin=plugin)

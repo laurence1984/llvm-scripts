@@ -10,7 +10,7 @@ def which(x):
 def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, build32=False,
-              static=False, shared=False, production=False):
+              static=False, shared=False, plugin=True):
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
@@ -58,10 +58,10 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
   else:
     CMAKE_ARGS += ['-DLLVM_ENABLE_ASSERTIONS=OFF']
 
-  if production:
-    CMAKE_ARGS += ['-DCLANG_IS_PRODUCTION=ON']
+  if plugin:
+    CMAKE_ARGS += ['-DCLANG_PLUGIN_SUPPORT=ON']
   else:
-    CMAKE_ARGS += ['-DCLANG_IS_PRODUCTION=OFF']
+    CMAKE_ARGS += ['-DCLANG_PLUGIN_SUPPORT=OFF']
 
   if lto:
     CFLAGS += ['-O3', '-flto']
