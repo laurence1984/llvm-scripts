@@ -14,7 +14,7 @@ def build_stage(n):
     inst_dir = '/llvm/llvm-inst%s' % n
 
     optimize=True
-    production = True
+    plugin = False
     static = True
     if n == 1:
         CC = 'clang'
@@ -35,7 +35,7 @@ def build_stage(n):
     os.chdir(build_dir)
 
     run_cmake(CC=CC, CXX=CXX, inst_dir=inst_dir, optimize=optimize,
-              asserts=asserts, lto=lto, static=static, production=production)
+              asserts=asserts, lto=lto, static=static, plugin=plugin)
 
     subprocess.check_call(['ninja', '-v'])
     subprocess.check_call(['ninja', '-v', 'install'])
