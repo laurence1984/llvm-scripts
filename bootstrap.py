@@ -15,7 +15,7 @@ def build_stage(n):
 
     optimize=True
     plugin = False
-    static = True
+    static = platform.system() != 'Darwin'
     if n == 1:
         CC = 'clang'
         asserts = True
