@@ -36,6 +36,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
                  '-DCMAKE_BUILD_TYPE=None',
                  '-DCMAKE_RANLIB=/usr/bin/true']
 
+  if platform.system() == 'Darwin':
+    CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
+
   linker_flags=[]
   if static:
     linker_flags += ['-static']
