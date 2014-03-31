@@ -34,7 +34,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
                  '-DCMAKE_PREFIX_PATH=%s/llvm/cloog-inst' % HOME,
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=None',
-                 '-DCMAKE_RANLIB=/usr/bin/true']
+                 '-DCMAKE_RANLIB=%s' % RANLIB,
+                 '-DCMAKE_AR=%s' % AR]
 
   if platform.system() == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
@@ -79,9 +80,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     if platform.system() != 'Darwin':
       CFLAGS += ['-fdebug-types-section', '-gsplit-dwarf']
       assert not ('ccache' in CC)
-
-  if platform.system() != 'Darwin':
-    CMAKE_ARGS += ['-DCMAKE_AR=%s/inst/binutils/bin/ar' % HOME]
 
   CXXFLAGS=CFLAGS
 
