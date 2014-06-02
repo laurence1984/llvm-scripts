@@ -78,9 +78,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
 
   if debug:
     CFLAGS += ['-g']
-    if platform.system() != 'Darwin':
-      CFLAGS += ['-fdebug-types-section', '-gsplit-dwarf']
-      assert not ('ccache' in CC)
 
   CXXFLAGS=CFLAGS
 

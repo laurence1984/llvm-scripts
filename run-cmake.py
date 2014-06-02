@@ -7,12 +7,12 @@ HOME = os.environ['HOME']
 #CC=HOME + '/llvm/build/bin/clang'
 #CXX=HOME + '/llvm/build/bin/clang++'
 
-#CC='/usr/bin/gcc'
-#CXX='/usr/bin/g++'
+CC='gcc'
+CXX='g++'
 
+#CC='clang'
+#CXX='clang++'
 
-CC='clang'
-CXX='clang++'
 AR='ar'
 RANLIB='true'
 inst_dir='/llvm/test-install'
@@ -26,11 +26,6 @@ build32=False
 static=False
 shared=False
 plugin=True
-
-if debug:
-    CC=HOME + '/inst/clang/bin/clang'
-    CXX=HOME + '/inst/clang/bin/clang++'
-
 
 run_cmake(CC=CC, CXX=CXX, AR=AR, RANLIB=RANLIB, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
