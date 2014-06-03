@@ -7,11 +7,11 @@ HOME = os.environ['HOME']
 #CC=HOME + '/llvm/build/bin/clang'
 #CXX=HOME + '/llvm/build/bin/clang++'
 
-CC='gcc'
-CXX='g++'
+#CC='gcc'
+#CXX='g++'
 
-#CC='clang'
-#CXX='clang++'
+CC='clang'
+CXX='clang++'
 
 AR='ar'
 RANLIB='true'
