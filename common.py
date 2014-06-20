@@ -36,12 +36,14 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
                  '-DCMAKE_BUILD_TYPE=None',
                  '-DCMAKE_RANLIB=%s' % RANLIB,
                  '-DCMAKE_AR=%s' % AR,
-                 '-DLLVM_ENABLE_SPHINX=ON',
-                 '-DLIBCXX_CXX_ABI=libstdc++',
-                 '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.2;/usr/include/c++/4.8.2/x86_64-redhat-linux']
+                 '-DLLVM_ENABLE_SPHINX=ON']
 
   if platform.system() == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
+  else:
+    CMAKE_ARGS += ['-DLIBCXX_CXX_ABI=libstdc++',
+                   '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.2;/usr/include/c++/4.8.2/x86_64-redhat-linux']
+
 
   linker_flags=[]
   if static:
