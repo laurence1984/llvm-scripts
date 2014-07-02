@@ -22,12 +22,12 @@ debug=False
 lto=False
 stats=False
 asan=False
-build32=False
+buildtype=''
 static=False
 shared=False
 plugin=True
 
 run_cmake(CC=CC, CXX=CXX, AR=AR, RANLIB=RANLIB, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
-          stats=stats, asan=asan, build32=build32, static=static, shared=shared,
+          stats=stats, asan=asan, buildtype=buildtype, static=static, shared=shared,
           plugin=plugin)

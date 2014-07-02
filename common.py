@@ -9,7 +9,7 @@ def which(x):
 
 def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
-              debug=False, lto=False, stats=False, asan=False, build32=False,
+              debug=False, lto=False, stats=False, asan=False, buildtype='',
               static=False, shared=False, plugin=True):
   CC = which(CC)
   CXX = which(CXX)
@@ -50,6 +50,13 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     linker_flags += ['-static']
   if lto:
     linker_flags += ['-flto']
+
+  if buildtype:
+    linker_flags += [buildtype]
+    CMAKE_ARGS += ['-DCMAKE_SHARED_LINKER_FLAGS=%s' % buildtype]
+    CMAKE_ARGS += ['-DCMAKE_MODULE_LINKER_FLAGS=%s' % buildtype]
+    CFLAGS += [buildtype]
+
   if linker_flags:
     CMAKE_ARGS +=  ['-DCMAKE_EXE_LINKER_FLAGS=' + ' '.join(linker_flags)]
 
@@ -58,9 +65,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
 
   if shared:
     CMAKE_ARGS += ['-DBUILD_SHARED_LIBS=ON']
-
-  if build32:
-    CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
 
   if asserts:
     CMAKE_ARGS += ['-DLLVM_ENABLE_ASSERTIONS=ON']
