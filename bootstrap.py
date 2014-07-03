@@ -10,6 +10,14 @@ import shutil
 
 home = os.environ['HOME']
 
+def copy_binutils_inst(n):
+    inst = 'binutils%s' % n
+    shutil.copytree(home + '/inst/binutils', inst, True)
+    dst = inst + '/lib/bfd-plugins/LLVMgold.so'
+    os.unlink(dst)
+    build_dir = home + '/llvm/bootstrap-stage%s' % n #FIX
+    os.symlink(build_dir + '/lib/LLVMgold.so', dst)
+
 def build_stage(n):
     inst_dir = '/llvm/llvm-inst%s' % n
 
@@ -26,12 +34,17 @@ def build_stage(n):
         CC =  prev_inst_dir + '/bin/clang'
         asserts = False
         lto = True
+        old_bin = home + '/llvm/binutils%s' % (n - 1) + '/bin'
+        os.environ['PATH'] = old_bin + ':' + os.environ['PATH']
 
     CXX = CC + '++'
 
     build_dir = home + '/llvm/bootstrap-stage%s' % n
     subprocess.check_call(['mkdir', build_dir])
     subprocess.check_call(['mkdir', home + inst_dir])
+
+    copy_binutils_inst(n)
+
     os.chdir(build_dir)
 
     run_cmake(CC=CC, CXX=CXX, inst_dir=inst_dir, optimize=optimize,
