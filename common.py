@@ -71,6 +71,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     CMAKE_ARGS += ['-DLLVM_ENABLE_ASSERTIONS=ON']
   else:
     CMAKE_ARGS += ['-DLLVM_ENABLE_ASSERTIONS=OFF']
+    CFLAGS += ['-DNDEBUG']
 
   if plugin:
     CMAKE_ARGS += ['-DCLANG_PLUGIN_SUPPORT=ON']
