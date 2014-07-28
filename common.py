@@ -62,6 +62,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
 
   if static:
     CMAKE_ARGS += ['-DCLANG_ENABLE_ARCMT=OFF']
+    CMAKE_ARGS += ['-DLIBCLANG_BUILD_STATIC=ON']
 
   if shared:
     CMAKE_ARGS += ['-DBUILD_SHARED_LIBS=ON']
