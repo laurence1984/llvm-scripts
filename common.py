@@ -50,6 +50,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     linker_flags += ['-static']
   if lto:
     linker_flags += ['-flto']
+  if optimize:
+    linker_flags += ['-Wl,--strip-all', '-Wl,-O3', '-Wl,--gc-sections']
 
   if buildtype:
     linker_flags += [buildtype]
