@@ -26,8 +26,9 @@ buildtype=''
 static=False
 shared=False
 plugin=True
+profile=False
 
 run_cmake(CC=CC, CXX=CXX, AR=AR, RANLIB=RANLIB, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
-          stats=stats, asan=asan, buildtype=buildtype, static=static, shared=shared,
-          plugin=plugin)
+          stats=stats, asan=asan, buildtype=buildtype, static=static,
+          shared=shared,  plugin=plugin, profile=profile)

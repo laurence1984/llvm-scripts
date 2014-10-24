@@ -10,7 +10,7 @@ def which(x):
 def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, buildtype='',
-              static=False, shared=False, plugin=True):
+              static=False, shared=False, plugin=True, profile=False):
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
@@ -51,8 +51,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
   if lto:
     linker_flags += ['-flto']
   if optimize:
-    linker_flags += ['-Wl,--strip-all', '-Wl,-O3', '-Wl,--gc-sections',
-                     '-Wl,--icf=safe']
+    linker_flags += ['-Wl,-O3', '-Wl,--gc-sections']
+    if not profile:
+      linker_flags += ['-Wl,--strip-all', '-Wl,--icf=safe']
 
   if buildtype:
     linker_flags += [buildtype]
@@ -88,6 +89,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
   else:
     CFLAGS += ['-O0']
     CMAKE_ARGS += ['-DLLVM_NO_DEAD_STRIP=ON']
+
+  if profile:
+    CFLAGS += ['-fno-omit-frame-pointer']
 
   if debug:
     CFLAGS += ['-g']
