@@ -23,7 +23,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     CFLAGS += ['-fcolor-diagnostics']
 
   if asan:
-    CFLAGS += ['-fsanitize=address']
+    CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
 
   if stats:
     CFLAGS += ['-DLLVM_ENABLE_STATS']
