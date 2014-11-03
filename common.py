@@ -22,9 +22,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
   if not 'gcc' in CC:
     CFLAGS += ['-fcolor-diagnostics']
 
-  if asan:
-    CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
-
   if stats:
     CFLAGS += ['-DLLVM_ENABLE_STATS']
 
@@ -37,6 +34,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
                  '-DCMAKE_RANLIB=%s' % RANLIB,
                  '-DCMAKE_AR=%s' % AR,
                  '-DLLVM_ENABLE_SPHINX=ON']
+
+  if asan:
+    CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
 
   if platform.system() == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
