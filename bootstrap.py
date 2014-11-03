@@ -55,11 +55,10 @@ def build_stage(n):
 
 assert os.path.exists('llvm/tools/clang')
 assert os.path.exists('llvm/tools/lld')
+assert os.path.exists('llvm/projects/compiler-rt')
 if platform.system() == 'Darwin':
-    assert os.path.exists('llvm/projects/compiler-rt')
     assert os.path.exists('llvm/projects/libcxx')
 else:
-    assert not os.path.exists('llvm/projects/compiler-rt')
     assert not os.path.exists('llvm/projects/libcxx')
 assert not os.path.exists('llvm/tools/clang/tools/extra')
 build_stage(1)
