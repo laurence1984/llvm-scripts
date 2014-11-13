@@ -90,9 +90,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
     CFLAGS += ['-O0']
     CMAKE_ARGS += ['-DLLVM_NO_DEAD_STRIP=ON']
 
-  if profile:
-    CFLAGS += ['-fno-omit-frame-pointer']
-
   if debug:
     CFLAGS += ['-g']
 
