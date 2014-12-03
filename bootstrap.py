@@ -43,8 +43,8 @@ def build_stage(n):
     run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir, optimize=optimize,
               asserts=asserts, lto=lto, static=static, plugin=plugin)
 
-    subprocess.check_call(['ninja', '-v'])
-    subprocess.check_call(['ninja', '-v', 'install'])
+    subprocess.check_call(['ninja'])
+    subprocess.check_call(['ninja', 'install'])
 
     shutil.copy('../clang/tools/clang-format/clang-format.py',
                 home + inst_dir + '/bin/')
