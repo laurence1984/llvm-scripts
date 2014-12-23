@@ -7,14 +7,14 @@ HOME = os.environ['HOME']
 def which(x):
   return subprocess.check_output(['which', x]).strip()
 
-def run_cmake(CC='clang', CXX='clang++', AR='ar',
+def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
-              debug=False, lto=False, stats=False, asan=False,
+              debug=False, lto=False, stats=False, asan=False, buildtype='',
               static=False, shared=False, plugin=True, profile=False):
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
-  RANLIB = which('true')
+  RANLIB = which(RANLIB)
   inst_dir = HOME + inst_dir
 
   CFLAGS=[]
@@ -25,23 +25,12 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
   if stats:
     CFLAGS += ['-DLLVM_ENABLE_STATS']
 
-  if optimize:
-    if debug:
-      buildtype = 'RelWithDebInfo'
-    else:
-      buildtype = 'Release'
-  else:
-    if debug:
-      buildtype = 'Debug'
-    else:
-      buildtype = 'None'
-
   CMAKE_ARGS  = ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
                  '-G', 'Ninja',
                  '-DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include' % HOME,
                  '-DCMAKE_PREFIX_PATH=%s/llvm/cloog-inst' % HOME,
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
-                 '-DCMAKE_BUILD_TYPE=%s' % buildtype,
+                 '-DCMAKE_BUILD_TYPE=None',
                  '-DCMAKE_RANLIB=%s' % RANLIB,
                  '-DCMAKE_AR=%s' % AR,
                  '-DLLVM_ENABLE_SPHINX=ON',
@@ -61,6 +50,12 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
     if not profile:
       linker_flags += ['-Wl,--strip-all']
 
+  if buildtype:
+    linker_flags += [buildtype]
+    CMAKE_ARGS += ['-DCMAKE_SHARED_LINKER_FLAGS=%s' % buildtype]
+    CMAKE_ARGS += ['-DCMAKE_MODULE_LINKER_FLAGS=%s' % buildtype]
+    CFLAGS += [buildtype]
+
   if asan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
     linker_flags += ['-shared-libasan']
@@ -79,6 +74,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
     CMAKE_ARGS += ['-DLLVM_ENABLE_ASSERTIONS=ON']
   else:
     CMAKE_ARGS += ['-DLLVM_ENABLE_ASSERTIONS=OFF']
+    CFLAGS += ['-DNDEBUG']
 
   if plugin:
     CMAKE_ARGS += ['-DCLANG_PLUGIN_SUPPORT=ON']
@@ -86,7 +82,15 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
     CMAKE_ARGS += ['-DCLANG_PLUGIN_SUPPORT=OFF']
 
   if lto:
-    CFLAGS += ['-flto']
+    CFLAGS += ['-O3', '-flto']
+  elif optimize:
+    CFLAGS += ['-O3']
+  else:
+    CFLAGS += ['-O0']
+    CMAKE_ARGS += ['-DLLVM_NO_DEAD_STRIP=ON']
+
+  if debug:
+    CFLAGS += ['-g']
 
   CXXFLAGS=CFLAGS
 
