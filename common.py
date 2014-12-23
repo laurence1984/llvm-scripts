@@ -14,7 +14,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
-  RANLIB = 'true'
+  RANLIB = which('true')
   inst_dir = HOME + inst_dir
 
   CFLAGS=[]
