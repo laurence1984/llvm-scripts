@@ -14,7 +14,6 @@ CC='clang'
 CXX='clang++'
 
 AR='ar'
-RANLIB='true'
 inst_dir='/llvm/test-install'
 optimize=True
 asserts=True
@@ -28,7 +27,7 @@ shared=False
 plugin=True
 profile=False
 
-run_cmake(CC=CC, CXX=CXX, AR=AR, RANLIB=RANLIB, inst_dir=inst_dir,
+run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
           stats=stats, asan=asan, buildtype=buildtype, static=static,
           shared=shared,  plugin=plugin, profile=profile)

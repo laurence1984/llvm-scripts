@@ -7,14 +7,14 @@ HOME = os.environ['HOME']
 def which(x):
   return subprocess.check_output(['which', x]).strip()
 
-def run_cmake(CC='clang', CXX='clang++', AR='ar', RANLIB='true',
+def run_cmake(CC='clang', CXX='clang++', AR='ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, buildtype='',
               static=False, shared=False, plugin=True, profile=False):
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
-  RANLIB = which(RANLIB)
+  RANLIB = 'true'
   inst_dir = HOME + inst_dir
 
   CFLAGS=[]
