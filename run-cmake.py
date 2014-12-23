@@ -21,7 +21,6 @@ debug=False
 lto=False
 stats=False
 asan=False
-buildtype=''
 static=False
 shared=False
 plugin=True
@@ -29,5 +28,5 @@ profile=False
 
 run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
-          stats=stats, asan=asan, buildtype=buildtype, static=static,
+          stats=stats, asan=asan, static=static,
           shared=shared,  plugin=plugin, profile=profile)
