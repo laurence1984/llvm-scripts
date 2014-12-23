@@ -27,7 +27,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
 
   CMAKE_ARGS  = ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
                  '-G', 'Ninja',
-                 '-DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include' % HOME,
                  '-DCMAKE_PREFIX_PATH=%s/llvm/cloog-inst' % HOME,
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=None',
@@ -40,7 +39,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
   else:
     CMAKE_ARGS += ['-DLIBCXX_CXX_ABI=libstdc++',
-                   '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.3;/usr/include/c++/4.8.3/x86_64-redhat-linux']
+                   '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.3;/usr/include/c++/4.8.3/x86_64-redhat-linux',
+                   '-DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include' % HOME]
 
 
   linker_flags=[]
