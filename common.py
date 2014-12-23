@@ -38,7 +38,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
 
   CMAKE_ARGS  = ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
                  '-G', 'Ninja',
-                 '-DCMAKE_PREFIX_PATH=%s/llvm/cloog-inst' % HOME,
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=%s' % buildtype,
                  '-DCMAKE_RANLIB=%s' % RANLIB,
@@ -63,7 +62,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
 
   if asan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
-    linker_flags += ['-shared-libasan']
 
   if linker_flags:
     CMAKE_ARGS +=  ['-DCMAKE_EXE_LINKER_FLAGS=' + ' '.join(linker_flags)]
