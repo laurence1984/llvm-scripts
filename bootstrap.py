@@ -46,11 +46,6 @@ def build_stage(n):
     subprocess.check_call(['ninja'])
     subprocess.check_call(['ninja', 'install'])
 
-    shutil.copy('../clang/tools/clang-format/clang-format.py',
-                home + inst_dir + '/bin/')
-    shutil.copy('../clang/tools/clang-format/clang-format.el',
-                home + inst_dir + '/bin/')
-
     os.chdir('..')
 
 assert os.path.exists('llvm/tools/clang')
