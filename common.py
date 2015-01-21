@@ -9,7 +9,7 @@ def which(x):
 
 def run_cmake(CC='clang', CXX='clang++', AR='ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
-              debug=False, lto=False, stats=False, asan=False,
+              debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False):
   CC = which(CC)
   CXX = which(CXX)
@@ -62,6 +62,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
 
   if asan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
+  elif msan:
+    CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Memory']
 
   if linker_flags:
     CMAKE_ARGS +=  ['-DCMAKE_EXE_LINKER_FLAGS=' + ' '.join(linker_flags)]
