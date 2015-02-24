@@ -43,7 +43,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
                  '-DCMAKE_RANLIB=%s' % RANLIB,
                  '-DCMAKE_AR=%s' % AR,
                  '-DLLVM_ENABLE_SPHINX=ON',
-                 '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON']
+                 '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
+                 '-DLLVM_LIBDIR_SUFFIX=64']
 
   if platform.system() == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
