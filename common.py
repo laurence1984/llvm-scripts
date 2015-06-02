@@ -59,6 +59,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
   linker_flags=[]
   if lto:
     linker_flags += ['-flto']
+    CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=1']
   if optimize and platform.system() != 'Darwin':
     if not profile:
       linker_flags += ['-Wl,--strip-all']
