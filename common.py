@@ -21,7 +21,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
   CFLAGS=[]
 
   if not 'gcc' in CC:
-    CFLAGS += ['-fcolor-diagnostics']
+    CFLAGS += ['-fcolor-diagnostics', '-fno-unique-section-names']
 
   if stats:
     CFLAGS += ['-DLLVM_ENABLE_STATS']
