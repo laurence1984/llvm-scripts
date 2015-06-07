@@ -39,10 +39,17 @@ def build_stage(n):
     subprocess.check_call(['mkdir', home + inst_dir])
 
     os.chdir(build_dir)
+    machine = platform.machine()
+    if 'arm' in machine:
+        targets = 'ARM'
+    elif machine == 'x86_64':
+        targets = 'X86'
+    else:
+        assert False
 
     run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir, optimize=optimize,
               asserts=asserts, lto=lto, static=static, plugin=plugin,
-              targets='X86')
+              targets=targets)
 
     subprocess.check_call(['ninja'])
     subprocess.check_call(['ninja', 'install'])
