@@ -11,7 +11,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
-              targets='all'):
+              targets='all', build32=False):
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
@@ -45,8 +45,11 @@ def run_cmake(CC='clang', CXX='clang++', AR='ar',
                  '-DCMAKE_AR=%s' % AR,
                  '-DLLVM_ENABLE_SPHINX=ON',
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
-                 '-DLLVM_LIBDIR_SUFFIX=64',
                  '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
+  if build32:
+    CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
+  else:
+    CMAKE_ARGS += ['-DLLVM_LIBDIR_SUFFIX=64']
 
   if platform.system() == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
