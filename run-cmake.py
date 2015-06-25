@@ -13,7 +13,6 @@ HOME = os.environ['HOME']
 CC='clang'
 CXX='clang++'
 
-AR='ar'
 inst_dir='/llvm/test-install'
 optimize=True
 asserts=True
@@ -27,7 +26,7 @@ shared=False
 plugin=True
 profile=False
 
-run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir,
+run_cmake(CC=CC, CXX=CXX, inst_dir=inst_dir,
           optimize=optimize, asserts=asserts, debug=debug, lto=lto,
           stats=stats, asan=asan, msan=msan, static=static,
           shared=shared,  plugin=plugin, profile=profile)

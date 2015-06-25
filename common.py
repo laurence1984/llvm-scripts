@@ -7,7 +7,7 @@ HOME = os.environ['HOME']
 def which(x):
   return subprocess.check_output(['which', x]).strip()
 
-def run_cmake(CC='clang', CXX='clang++', AR='ar',
+def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
