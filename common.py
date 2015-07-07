@@ -11,7 +11,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
-              targets='all', build32=False):
+              targets='all', build32=False, ubsan=False):
   CC = which(CC)
   CXX = which(CXX)
   AR = which(AR)
@@ -69,7 +69,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     if not profile:
       linker_flags += ['-Wl,--strip-all']
 
-  if asan:
+  if ubsan:
+    CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Undefined']
+  elif asan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Address']
   elif msan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Memory']
