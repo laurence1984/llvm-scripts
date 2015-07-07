@@ -45,7 +45,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
                  '-DCMAKE_AR=%s' % AR,
                  '-DLLVM_ENABLE_SPHINX=ON',
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
-                 '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
+                 '-DLLVM_TARGETS_TO_BUILD=%s' % targets,
+                 '-DLLVM_USE_INTEL_JITEVENTS=ON',
+                 '-DLLVM_USE_OPROFILE=ON']
   if build32:
     CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
   else:
