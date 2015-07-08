@@ -25,10 +25,7 @@ def build_stage(n):
         prev_inst_dir = os.getcwd() + '/llvm-inst%s' % (n-1)
         os.environ['DYLD_LIBRARY_PATH'] = prev_inst_dir + '/lib64/'
         CC =  prev_inst_dir + '/bin/clang'
-        if platform.system() == 'Darwin':
-            AR = 'ar'
-        else:
-            AR =  prev_inst_dir + '/bin/llvm-ar'
+        AR =  prev_inst_dir + '/bin/llvm-ar'
         asserts = False
         lto = True
 
