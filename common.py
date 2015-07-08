@@ -45,9 +45,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
                  '-DCMAKE_AR=%s' % AR,
                  '-DLLVM_ENABLE_SPHINX=ON',
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
-                 '-DLLVM_TARGETS_TO_BUILD=%s' % targets,
-                 '-DLLVM_USE_INTEL_JITEVENTS=ON',
-                 '-DLLVM_USE_OPROFILE=ON']
+                 '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
   if build32:
     CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
   else:
@@ -56,7 +54,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   if platform.system() == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
   else:
-    CMAKE_ARGS += ['-DLIBCXX_CXX_ABI=libstdc++',
+    CMAKE_ARGS += ['-DLLVM_USE_INTEL_JITEVENTS=ON',
+                   '-DLLVM_USE_OPROFILE=ON'
+                   '-DLIBCXX_CXX_ABI=libstdc++',
                    '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.3;/usr/include/c++/4.8.3/x86_64-redhat-linux',
                    '-DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include' % HOME]
 
