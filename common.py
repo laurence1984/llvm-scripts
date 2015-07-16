@@ -17,15 +17,13 @@ def get_system_memory():
 def get_num_lto_link_processes():
     return int(get_system_memory()/2)
 
-def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
+def run_cmake(CC='clang', CXX='clang++',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
               targets='all', build32=False, ubsan=False):
   CC = which(CC)
   CXX = which(CXX)
-  AR = which(AR)
-  RANLIB = which('true')
   inst_dir = HOME + inst_dir
 
   CFLAGS=[]
@@ -47,12 +45,17 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     else:
       buildtype = 'None'
 
+  if platform.system() == 'Darwin':
+    AR_OPTS = 'cr'
+  else:
+    AR_OPTS = 'crT'
+  AR_COMMAND = 'rm -f <TARGET>; llvm-ar %s <TARGET> <OBJECTS>' % AR_OPTS
+
   CMAKE_ARGS  = ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
                  '-G', 'Ninja',
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=%s' % buildtype,
-                 '-DCMAKE_RANLIB=%s' % RANLIB,
-                 '-DCMAKE_AR=%s' % AR,
+                 '-DCMAKE_CXX_CREATE_STATIC_LIBRARY=%s' % AR_COMMAND,
                  '-DLLVM_ENABLE_SPHINX=ON',
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
                  '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
