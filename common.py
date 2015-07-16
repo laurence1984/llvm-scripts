@@ -7,6 +7,16 @@ HOME = os.environ['HOME']
 def which(x):
   return subprocess.check_output(['which', x]).strip()
 
+def get_system_memory():
+  if platform.system() == 'Darwin':
+    num_bytes = int(subprocess.check_output(['sysctl', 'hw.memsize']).split(':')[1].strip())
+  else:
+    num_bytes = (os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES'))
+  return num_bytes/1024.0/1024.0/1024.0
+
+def get_num_lto_link_processes():
+    return int(get_system_memory()/2)
+
 def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
@@ -64,7 +74,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   linker_flags=[]
   if lto:
     linker_flags += ['-flto']
-    CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=1']
+    CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=%s' % get_num_lto_link_processes()]
   if optimize and platform.system() != 'Darwin':
     if not profile:
       linker_flags += ['-Wl,--strip-all']
