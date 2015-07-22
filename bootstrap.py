@@ -18,7 +18,7 @@ def build_stage(n):
     static = platform.system() != 'Darwin'
     if n == 1:
         CC = 'clang'
-        AR = 'ar'
+        AR = 'llvm-ar'
         asserts = True
         lto = False
     else:

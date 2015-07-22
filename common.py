@@ -17,7 +17,7 @@ def get_system_memory():
 def get_num_lto_link_processes():
     return int(get_system_memory()/2)
 
-def run_cmake(CC='clang', CXX='clang++',
+def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
@@ -49,7 +49,7 @@ def run_cmake(CC='clang', CXX='clang++',
     AR_OPTS = 'cr'
   else:
     AR_OPTS = 'crT'
-  AR_COMMAND = 'rm -f <TARGET>; llvm-ar %s <TARGET> <OBJECTS>' % AR_OPTS
+  AR_COMMAND = 'rm -f <TARGET>; %s %s <TARGET> <OBJECTS>' % (AR, AR_OPTS)
 
   CMAKE_ARGS  = ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
                  '-G', 'Ninja',
