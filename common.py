@@ -1,11 +1,17 @@
 import subprocess
 import platform
 import os
+import shutil
 
 HOME = os.path.expanduser('~')
 
 def which(x):
-  return subprocess.check_output(['which', x]).strip()
+  try:
+    ret = shutil.which(x)
+  except AttributeError:
+    return subprocess.check_output(['which', x]).strip()
+  assert ret
+  return ret
 
 def get_system_memory():
   if platform.system() == 'Darwin':
