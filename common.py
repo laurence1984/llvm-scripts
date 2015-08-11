@@ -28,7 +28,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
 
   CFLAGS=[]
 
-  if not 'gcc' in CC:
+  if 'clang' in CC:
     CFLAGS += ['-fcolor-diagnostics', '-fno-unique-section-names']
 
   if stats:
