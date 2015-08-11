@@ -58,6 +58,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
                  '-DCMAKE_CXX_CREATE_STATIC_LIBRARY=%s' % AR_COMMAND,
                  '-DLLVM_ENABLE_SPHINX=ON',
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
+                 '-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly',
                  '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
   if build32:
     CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
