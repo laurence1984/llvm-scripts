@@ -2,7 +2,7 @@
 
 from common import run_cmake
 import os
-HOME = os.environ['HOME']
+HOME = os.path.expanduser('~')
 
 #CC=HOME + '/llvm/build/bin/clang'
 #CXX=HOME + '/llvm/build/bin/clang++'

@@ -2,7 +2,7 @@ import subprocess
 import platform
 import os
 
-HOME = os.environ['HOME']
+HOME = os.path.expanduser('~')
 
 def which(x):
   return subprocess.check_output(['which', x]).strip()
