@@ -4,6 +4,7 @@ import os
 import shutil
 
 HOME = os.path.expanduser('~')
+system = platform.system()
 
 def which(x):
   try:
@@ -14,7 +15,7 @@ def which(x):
   return ret
 
 def get_system_memory():
-  if platform.system() == 'Darwin':
+  if system == 'Darwin':
     num_bytes = int(subprocess.check_output(['sysctl', 'hw.memsize']).split(':')[1].strip())
   else:
     num_bytes = (os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES'))
@@ -51,7 +52,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     else:
       buildtype = 'None'
 
-  if platform.system() == 'Darwin':
+  if system == 'Darwin':
     AR_OPTS = 'cr'
   else:
     AR_OPTS = 'crT'
@@ -71,7 +72,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   else:
     CMAKE_ARGS += ['-DLLVM_LIBDIR_SUFFIX=64']
 
-  if platform.system() == 'Darwin':
+  if system == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
   else:
     CMAKE_ARGS += ['-DLLVM_USE_INTEL_JITEVENTS=ON',
@@ -85,7 +86,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   if lto:
     linker_flags += ['-flto']
     CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=%s' % get_num_lto_link_processes()]
-  if optimize and platform.system() != 'Darwin':
+  if optimize and system != 'Darwin':
     if not profile:
       linker_flags += ['-Wl,--strip-all']
 
