@@ -63,7 +63,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=%s' % buildtype,
                  '-DCMAKE_CXX_CREATE_STATIC_LIBRARY=%s' % AR_COMMAND,
-                 '-DLLVM_ENABLE_SPHINX=ON',
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
                  '-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly',
                  '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
@@ -74,21 +73,27 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
 
   if system == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
-  else:
+  if system == 'Linux':
+    CMAKE_ARGS += ['-DLLVM_USE_OPROFILE=ON',
+                   '-DLLVM_ENABLE_SPHINX=ON']
+  if system != 'Darwin':
     CMAKE_ARGS += ['-DLLVM_USE_INTEL_JITEVENTS=ON',
-                   '-DLLVM_USE_OPROFILE=ON'
                    '-DLIBCXX_CXX_ABI=libstdc++',
                    '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.3;/usr/include/c++/4.8.3/x86_64-redhat-linux',
                    '-DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include' % HOME]
 
+  if system == 'Windows':
+    CMAKE_ARGS += ['-DLLVM_LIT_TOOLS_DIR=' + HOME + '/gnuwin32/GetGnuWin32/gnuwin32/bin']
+    if not Debug:
+      CMAKE_ARGS += ['-DCMAKE_STATIC_LINKER_FLAGS=/llvmlibthin',
+                     '-DCMAKE_LINKER=%s' % which('lld-link')]
 
   linker_flags=[]
   if lto:
     linker_flags += ['-flto']
     CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=%s' % get_num_lto_link_processes()]
-  if optimize and system != 'Darwin':
-    if not profile:
-      linker_flags += ['-Wl,--strip-all']
+  if optimize and system == 'Linux' and not profile:
+    linker_flags += ['-Wl,--strip-all']
 
   if ubsan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Undefined']
