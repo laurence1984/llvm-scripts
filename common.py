@@ -84,7 +84,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
 
   if system == 'Windows':
     CMAKE_ARGS += ['-DLLVM_LIT_TOOLS_DIR=' + HOME + '/gnuwin32/GetGnuWin32/gnuwin32/bin']
-    if not Debug:
+    if not debug:
       CMAKE_ARGS += ['-DCMAKE_STATIC_LINKER_FLAGS=/llvmlibthin',
                      '-DCMAKE_LINKER=%s' % which('lld-link')]
 
