@@ -8,14 +8,15 @@ import platform
 import sys
 import shutil
 
-home = os.environ['HOME']
+home = os.path.expanduser('~')
+system = platform.system()
 
 def build_stage(n):
     inst_dir = '/llvm/llvm-inst%s' % n
 
     optimize=True
     plugin = False
-    static = platform.system() != 'Darwin'
+    static = system != 'Darwin'
     if n == 1:
         CC = 'clang'
         AR = 'llvm-ar'
@@ -32,8 +33,8 @@ def build_stage(n):
     CXX = CC + '++'
 
     build_dir = home + '/llvm/bootstrap-stage%s' % n
-    subprocess.check_call(['mkdir', build_dir])
-    subprocess.check_call(['mkdir', home + inst_dir])
+    os.mkdir(build_dir)
+    os.mkdir(home + inst_dir)
 
     os.chdir(build_dir)
     machine = platform.machine()
@@ -56,7 +57,7 @@ def build_stage(n):
 assert os.path.exists('llvm/tools/clang')
 assert os.path.exists('llvm/tools/lld')
 assert os.path.exists('llvm/projects/compiler-rt')
-if platform.system() == 'Darwin':
+if system == 'Darwin':
     assert os.path.exists('llvm/projects/libcxx')
 else:
     assert not os.path.exists('llvm/projects/libcxx')
