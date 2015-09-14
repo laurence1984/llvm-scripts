@@ -28,7 +28,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
-              targets='all', build32=False, ubsan=False):
+              targets='all', build32=False, ubsan=False, thin=True):
   CC = which(CC)
   CXX = which(CXX)
   inst_dir = HOME + inst_dir
@@ -52,7 +52,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     else:
       buildtype = 'None'
 
-  if system == 'Darwin':
+  if system == 'Darwin' or not thin:
     AR_OPTS = 'cr'
   else:
     AR_OPTS = 'crT'

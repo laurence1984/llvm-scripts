@@ -47,7 +47,7 @@ def build_stage(n):
 
     run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir, optimize=optimize,
               asserts=asserts, lto=lto, static=static, plugin=plugin,
-              targets=targets)
+              targets=targets, thin=False)
 
     subprocess.check_call(['ninja'])
     subprocess.check_call(['ninja', 'install'])
