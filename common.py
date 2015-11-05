@@ -22,7 +22,7 @@ def get_system_memory():
   return num_bytes/1024.0/1024.0/1024.0
 
 def get_num_lto_link_processes():
-    return int(get_system_memory()/2)
+    return int(get_system_memory()/3)
 
 def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
