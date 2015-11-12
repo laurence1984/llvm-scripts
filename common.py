@@ -76,8 +76,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     CMAKE_ARGS += ['-DLLVM_USE_OPROFILE=ON',
                    '-DLLVM_ENABLE_SPHINX=ON']
   if system != 'Darwin':
-    CMAKE_ARGS += ['-DLLVM_USE_INTEL_JITEVENTS=ON',
-                   '-DLIBCXX_CXX_ABI=libstdc++',
+    CMAKE_ARGS += ['-DLIBCXX_CXX_ABI=libstdc++',
                    '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.3;/usr/include/c++/4.8.3/x86_64-redhat-linux',
                    '-DLLVM_BINUTILS_INCDIR=%s/binutils/binutils/include' % HOME]
 
