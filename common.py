@@ -73,8 +73,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   if system == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
   if system == 'Linux':
-    CMAKE_ARGS += ['-DLLVM_USE_OPROFILE=ON',
-                   '-DLLVM_ENABLE_SPHINX=ON']
+    CMAKE_ARGS += ['-DLLVM_ENABLE_SPHINX=ON']
   if system != 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_CXX_ABI=libstdc++',
                    '-DLIBCXX_LIBSUPCXX_INCLUDE_PATHS=/usr/include/c++/4.8.3;/usr/include/c++/4.8.3/x86_64-redhat-linux',
