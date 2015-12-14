@@ -67,8 +67,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
                  '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
   if build32:
     CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
-  else:
-    CMAKE_ARGS += ['-DLLVM_LIBDIR_SUFFIX=64']
 
   if system == 'Darwin':
     CMAKE_ARGS += ['-DLIBCXX_LIBCPPABI_VERSION=2']
