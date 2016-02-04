@@ -41,6 +41,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   if stats:
     CFLAGS += ['-DLLVM_ENABLE_STATS']
 
+  CMAKE_ARGS = []
+
   if optimize:
     if debug:
       buildtype = 'RelWithDebInfo'
@@ -50,7 +52,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     if debug:
       buildtype = 'Debug'
     else:
-      buildtype = 'None'
+      buildtype = 'Release'
+      CMAKE_ARGS += ['-DCMAKE_CXX_FLAGS_RELEASE=-O0 -DNDEBUG']
+      CMAKE_ARGS += ['-DCMAKE_C_FLAGS_RELEASE=-O0 -DNDEBUG']
 
   if system == 'Darwin' or not thin:
     AR_OPTS = 'cr'
@@ -58,7 +62,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     AR_OPTS = 'crT'
   AR_COMMAND = 'rm -f <TARGET>; %s %s <TARGET> <OBJECTS>' % (AR, AR_OPTS)
 
-  CMAKE_ARGS  = ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
+  CMAKE_ARGS += ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
                  '-G', 'Ninja',
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=%s' % buildtype,
