@@ -28,7 +28,8 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, profile=False,
-              targets='all', build32=False, ubsan=False, thin=True):
+              targets='all', build32=False, ubsan=False, thin=True,
+              lld=False):
   CC = which(CC)
   CXX = which(CXX)
   inst_dir = HOME + inst_dir
@@ -93,6 +94,9 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=%s' % get_num_lto_link_processes()]
   if optimize and system == 'Linux' and not profile:
     linker_flags += ['-Wl,--strip-all']
+
+  if lld:
+    linker_flags += ['-fuse-ld=lld']
 
   if ubsan:
     CMAKE_ARGS += ['-DLLVM_USE_SANITIZER=Undefined']
