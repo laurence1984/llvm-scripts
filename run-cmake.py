@@ -14,7 +14,7 @@ CC='clang'
 CXX='clang++'
 
 inst_dir='/llvm/test-install'
-optimize=True
+optimize=1
 asserts=True
 debug=False
 lto=False
