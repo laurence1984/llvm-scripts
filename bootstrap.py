@@ -14,7 +14,6 @@ system = platform.system()
 def build_stage(n):
     inst_dir = '/llvm/llvm-inst%s' % n
 
-    optimize=True
     plugin = False
     static = system != 'Darwin'
     if n == 1:
@@ -45,7 +44,7 @@ def build_stage(n):
     else:
         assert False
 
-    run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir, optimize=optimize,
+    run_cmake(CC=CC, CXX=CXX, AR=AR, inst_dir=inst_dir, optimize=3,
               asserts=asserts, lto=lto, static=static, plugin=plugin,
               targets=targets, thin=False)
 
