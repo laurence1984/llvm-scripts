@@ -27,9 +27,8 @@ def get_num_lto_link_processes():
 def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
-              static=False, shared=False, plugin=True, profile=False,
-              targets='all', build32=False, ubsan=False, thin=True,
-              lld=False):
+              static=False, shared=False, plugin=True, targets='all',
+              build32=False, ubsan=False, thin=True, lld=False):
   assert optimize == 0 or optimize == 1 or optimize == 2 or optimize == 3
   CC = which(CC)
   CXX = which(CXX)
@@ -93,8 +92,6 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
   if lto:
     linker_flags += ['-flto']
     CMAKE_ARGS += ['-DLLVM_PARALLEL_LINK_JOBS=%s' % get_num_lto_link_processes()]
-  if optimize and system == 'Linux' and not profile:
-    linker_flags += ['-Wl,--strip-all']
 
   if lld:
     linker_flags += ['-fuse-ld=lld']
