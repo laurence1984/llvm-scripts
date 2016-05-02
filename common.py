@@ -44,18 +44,33 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
 
   CMAKE_ARGS = []
 
-  if not debug:
-    buildtype = 'Release'
-  elif optimize:
+  if not optimize:
+    buildtype = 'Debug'
+  elif debug:
     buildtype = 'RelWithDebInfo'
   else:
-    buildtype = 'Debug'
+    buildtype = 'Release'
 
-  CMAKE_ARGS += ['-DCMAKE_CXX_FLAGS_RELEASE=-O%s -DNDEBUG' % optimize]
-  CMAKE_ARGS += ['-DCMAKE_C_FLAGS_RELEASE=-O%s -DNDEBUG' % optimize]
+  if debug:
+    debug_opt = '-g'
+  else:
+    debug_opt = ''
 
-  CMAKE_ARGS += ['-DCMAKE_C_FLAGS_RELWITHDEBINFO=-O%s -g -DNDEBUG' % optimize]
-  CMAKE_ARGS += ['-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O%s -g -DNDEBUG' % optimize]
+  if asserts:
+    assert_opt = ''
+  else:
+    assert_opt = '-DNDEBUG'
+
+  opts = '-O%s %s %s' % (optimize, debug_opt, assert_opt)
+
+  CMAKE_ARGS += ['-DCMAKE_CXX_FLAGS_RELEASE=%s' % opts]
+  CMAKE_ARGS += ['-DCMAKE_C_FLAGS_RELEASE=%s' % opts]
+
+  CMAKE_ARGS += ['-DCMAKE_C_FLAGS_RELWITHDEBINFO=%s' % opts]
+  CMAKE_ARGS += ['-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=%s' % opts]
+
+  CMAKE_ARGS += ['-DCMAKE_C_FLAGS_DEBUG=%s' % opts]
+  CMAKE_ARGS += ['-DCMAKE_CXX_FLAGS_DEBUG=%s' % opts]
 
   if system == 'Darwin' or not thin:
     AR_OPTS = 'cr'
