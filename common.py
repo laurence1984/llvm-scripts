@@ -85,6 +85,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
                  '-DCMAKE_C_CREATE_STATIC_LIBRARY=%s' % AR_COMMAND,
                  '-DCMAKE_CXX_CREATE_STATIC_LIBRARY=%s' % AR_COMMAND,
                  '-DCOMPILER_RT_BUILD_SHARED_ASAN=ON',
+                 '-DENABLE_X86_RELAX_RELOCATIONS=ON',
                  '-DLLVM_TARGETS_TO_BUILD=%s' % targets]
   if build32:
     CMAKE_ARGS += ['-DLLVM_BUILD_32_BITS=ON']
