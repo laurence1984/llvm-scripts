@@ -28,7 +28,7 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
               inst_dir='/llvm/test-install', optimize=False, asserts=True,
               debug=False, lto=False, stats=False, asan=False, msan=False,
               static=False, shared=False, plugin=True, targets='all',
-              build32=False, ubsan=False, thin=True, lld=False):
+              build32=False, ubsan=False, thin=True, lld=False, examples=False):
   assert optimize == 0 or optimize == 1 or optimize == 2 or optimize == 3
   CC = which(CC)
   CXX = which(CXX)
@@ -78,8 +78,10 @@ def run_cmake(CC='clang', CXX='clang++', AR='llvm-ar',
     AR_OPTS = 'crT'
   AR_COMMAND = 'rm -f <TARGET>; %s %s <TARGET> <OBJECTS>' % (AR, AR_OPTS)
 
-  CMAKE_ARGS += ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON',
-                 '-G', 'Ninja',
+  if examples:
+    CMAKE_ARGS += ['-DCLANG_BUILD_EXAMPLES=ON', '-DLLVM_BUILD_EXAMPLES=ON']
+
+  CMAKE_ARGS += ['-G', 'Ninja',
                  '-DCMAKE_INSTALL_PREFIX=%s' % inst_dir,
                  '-DCMAKE_BUILD_TYPE=%s' % buildtype,
                  '-DCMAKE_C_CREATE_STATIC_LIBRARY=%s' % AR_COMMAND,
